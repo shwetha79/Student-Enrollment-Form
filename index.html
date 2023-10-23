@@ -120,7 +120,7 @@
                     return;
                 }
                 var putReqStr = createPUTRequest("90931570|-31949333556086028|90960062",
-                        jsonStr, "STUDENT", "STU-REL", primaryKey="stuId");
+                        jsonStr, "SCHOOL-DB", "STUDENT-TABLE", primaryKey="stuId");
                 alert(putReqStr);
                 jQuery.ajaxSetup({async: false});
                 var resultObj = executeCommandAtGivenBaseUrl(putReqStr,
