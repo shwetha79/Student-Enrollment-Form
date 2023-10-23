@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Student Enrollment Form</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script
+        src="https://login2explore.com/jpdb/resources/js/0.0.4/jpdb-commons.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Student Enrollment Form</h2>
+            <form id="stuForm" method="post">
+                <div class="form-group">
+                    <span><label for="stuId">Student Roll Number :</label> <label id="stuId">
+                        </label></span>
+                    <input type="text" class="form-control" name="stuId" id="stuId"
+                           placeholder="Enter Student Roll Number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="stuName">Student Name:</label>
+                    <input type="text" class="form-control" id="stuName" placeholder="Enter Student Name  " name="stuName">
+                </div>
+
+                <div class="form-group">
+                    <label for="stuClass">Class:</label>
+                    <input type="text" class="form-control" id="stuClass" placeholder="Enter Student Class  " name="stuClass">
+                </div>
+
+                <div class="form-group">
+                    <label for="stuBirth">Birth Day:</label>
+                    <input type="date" class="form-control" id="stuBirth" placeholder="Enter Student Birthday  " name="stuBirth">
+                </div>
+
+                <div class="form-group">
+                    <label for="stuAdd">Address:</label>
+                    <input type="text" class="form-control" id="stuAdd" placeholder="Enter Student Address  " name="stuAdd">
+                </div>
+
+                <div class="form-group">
+                    <label for="stuDate">Enrollment Date:</label>
+                    <input type="date" class="form-control" id="stuDate" placeholder="Enter Enrollment Date  " name="stuDate">
+                </div>
+
+                <input type="button" class="btn btn-primary" id="stuSave" value="Save" onclick="saveStudent();">
+            </form>
+        </div>
+        <script>
+
+            function validateAndGetFormData() {
+
+                var stuIdVar = $("#stuId").val();
+                if (stuIdVar === "") {
+                    alert("Student Roll No Required Value");
+                    $("#stuId").focus();
+                    return "";
+                }
+                var stuNameVar = $("#stuName").val();
+                if (stuNameVar === "") {
+                    alert("Student Name is Required Value");
+                    $("#stuName").focus();
+                    return "";
+                }
+                var stuClassVar = $("#stuClass").val();
+                if (stuClassVar === "") {
+                    alert("Student Class is Required Value");
+                    $("#stuClass").focus();
+                    return "";
+                }
+                var stuBirthVar = $("#stuBirth").val();
+                if (stuBirthVar === "") {
+                    alert("Student Birthday is Required Value");
+                    $("#stuBirth").focus();
+                    return "";
+                }
+                var stuAddVar = $("#stuAdd").val();
+                if (stuAddVar === "") {
+                    alert("Student Address is Required Value");
+                    $("#stuAdd").focus();
+                    return "";
+                }
+                var stuDateVar = $("#stuDate").val();
+                if (stuDateVar === "") {
+                    alert("Student Enrollment Date is Required Value");
+                    $("#stuDate").focus();
+                    return "";
+                }
+                var jsonStrObj = {
+                    stuId: stuIdVar,
+                    stuName: stuNameVar,
+                    stuClass: stuClassVar,
+                    stuBirth: stuBirthVar,
+                    stuAdd: stuAddVar,
+                    stuDate: stuDateVar
+                };
+                return JSON.stringify(jsonStrObj);
+            }
+
+
+            function resetForm() {
+                $("#stuId").val("");
+                $("#stuName").val("");
+                $("#stuClass").val("");
+                $("#stuBirth").val("");
+                $("#stuAdd").val("");
+                $("#stuDate").val("");
+                $("#stuId").focus();
+            }
+            function saveStudent() {
+
+                var jsonStr = validateAndGetFormData();
+                if (jsonStr === "") {
+                    return;
+                }
+                var putReqStr = createPUTRequest("90931570|-31949333556086028|90960062",
+                        jsonStr, "STUDENT", "STU-REL", primaryKey="stuId");
+                alert(putReqStr);
+                jQuery.ajaxSetup({async: false});
+                var resultObj = executeCommandAtGivenBaseUrl(putReqStr,
+                        "http://api.login2explore.com:5577", "/api/iml");
+                jQuery.ajaxSetup({async: true});
+                alert(JSON.stringify(resultObj));
+
+                resetForm();
+
+
+            }
+        </script>
+    </body>
+</html>
